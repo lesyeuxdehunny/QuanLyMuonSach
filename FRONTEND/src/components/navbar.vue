@@ -51,7 +51,7 @@
       <li>
         <router-link to="/admin/bookManagement">
           <i class="fas fa-tasks-alt"></i>
-          <span v-if="!isCollapsed">Quản lý mượn sách</span>
+          <span v-if="!isCollapsed">Quản lý mượn-trả sách</span>
         </router-link>
       </li>
     </ul>
@@ -88,7 +88,7 @@ export default {
 
 <style scoped>
 .sidebar {
-  width: 240px;
+  width: 250px;
   background: #ffeda8;
   color: white;
   min-height: 100vh;
