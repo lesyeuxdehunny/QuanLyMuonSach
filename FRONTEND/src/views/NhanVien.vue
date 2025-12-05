@@ -222,7 +222,7 @@ p {
   background-color: #029eff;
   color: white;
   border: none;
-  padding: 8px 12px;
+  padding: 5px 10px;
   cursor: pointer;
   border-radius: 5px;
 }
