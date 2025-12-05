@@ -18,7 +18,7 @@
       <li>
         <router-link to="/profile">
           <i class="fas fa-user"></i>
-          <span v-if="!isCollapsed">Tài khoản</span>
+          <span v-if="!isCollapsed">Thông tin tài khoản</span>
         </router-link>
       </li>
     </ul>

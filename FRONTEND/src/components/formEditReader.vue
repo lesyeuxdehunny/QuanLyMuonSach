@@ -63,6 +63,7 @@ export default {
 .form-overlay {
   position: fixed;
   top: 0;
+  margin-top: 40px;
   left: 0;
   width: 100%;
   height: 100%;

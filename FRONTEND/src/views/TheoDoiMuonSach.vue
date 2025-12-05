@@ -5,7 +5,7 @@
       <Header @search="searchBorrowBook" />
       <div class="content">
         <div class="top-bar">
-          <h2>Danh Sách Mượn-Trả Sách</h2>
+          <h2>Danh Sách Mượn Sách</h2>
         </div>
         <div class="borrowBook-list">
           <div class="borrowBook-card" v-for="borrowbook in borrowbooks" :key="borrowbook.maMuon">
