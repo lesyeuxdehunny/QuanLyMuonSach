@@ -26,7 +26,6 @@ class DocGiaService {
     return reader;
   }
 
-  //Tạo sách
   async create(payload) {
     const Reader = this.extractReaderData(payload);
     //Kiểm tra đã tồn tại chưa
@@ -35,7 +34,7 @@ class DocGiaService {
     });
 
     if (existReader) {
-      throw new Error("ds bản đã tồn tại");
+      throw new Error("Độc giả đã tồn tại");
     }
 
     const result = await this.Reader.insertOne(Reader);

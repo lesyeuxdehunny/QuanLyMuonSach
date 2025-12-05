@@ -4,9 +4,24 @@ const ApiError = require("../api-error");
 
 //Thêm mới độc giả
 exports.create = async (req, res, next) => {
-  
-  if (!req.body?.ten) {
+  const { ten, dienthoai, email } = req.body;
+
+  if (!ten) {
     return next(new ApiError(400, "Tên không được để trống"));
+  }
+
+  //Kiểm tra email hợp lệ
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@gmail\.com$/;
+  if (!email || !emailRegex.test(email)) {
+    return next(
+      new ApiError(400, "Email không hợp lệ! Email phải ở dạng example@gmail.com")
+    );
+  }
+
+  //Kiểm tra số điện thoại hợp lệ
+  const phoneRegex = /^[0-9]{10}$/;
+  if (!dienthoai || !phoneRegex.test(dienthoai)) {
+    return next(new ApiError(400, "Số điện thoại không hợp lệ!"));
   }
 
   try {

@@ -118,25 +118,35 @@ export default {
       }
     },
 
-    async register() {
-      try {
-        await this.checkMadocgia();
-        if (this.madocgiaError) return
+async register() {
+  try {
+    await this.checkMadocgia();
+    if (this.madocgiaError) return;
 
-        if (this.registerData.pass !== this.confirmPassword) {
-          alert("Mật khẩu không trùng khớp!");
-          return;
-        }
+    if (this.registerData.pass !== this.confirmPassword) {
+      alert("Mật khẩu không trùng khớp!");
+      return;
+    }
 
-        await readerService.createReader(this.registerData);
+    await readerService.createReader(this.registerData);
 
-        alert("Đăng ký thành công! Hãy đăng nhập.");
-        this.isLogin = true; //Chuyển sang trang đăng nhập
-      } catch (error) {
-        console.error("Lỗi khi tạo tài khoản:", error);
-        alert(`Có lỗi xảy ra, vui lòng thử lại. ${error}`);
-      }
-    },
+    alert("Đăng ký thành công! Hãy đăng nhập.");
+    this.isLogin = true;
+  } catch (error) {
+    console.error("Lỗi khi tạo tài khoản:", error);
+
+    if (error.response) {
+      console.error("Server responded:", error.response.status, error.response.data);
+      alert(`${error.response.data?.message || JSON.stringify(error.response.data)}`);
+    } else if (error.request) {
+      console.error("No response received:", error.request);
+      alert("Không nhận được phản hồi từ server.");
+    } else {
+      alert(`Lỗi: ${error.message}`);
+    }
+  }
+}
+
   }
 };
 </script>
