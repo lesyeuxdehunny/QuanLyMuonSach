@@ -17,7 +17,7 @@
             <p><strong>Mã số/Tên tài khoản: </strong>{{ staff.msnv }}</p>
             <p><strong>Chức vụ: </strong>{{ staff.chucvu }}</p>
             <p><strong>Địa chỉ: </strong>{{ staff.diachi }}</p>
-            <p><strong>SĐT: </strong>{{ staff.dienthoai }}</p>
+            <p><strong>Số điện thoại: </strong>{{ staff.dienthoai }}</p>
             <!-- <p><strong>Mật khẩu: </strong>{{ staff.password }}</p> -->
             <div class="actions" v-if="isManager">
               <button @click="deleteStaff(staff.msnv)" class="delete">XÓA</button>
@@ -64,7 +64,7 @@ export default {
         const chucvu = user.chucvu.toLowerCase();
         this.isManager = chucvu === "quản lý"
       } catch (error) {
-        console.error("Lỗi khi lấy danh sách sách nhân viên:", error);
+        console.error("Lỗi khi lấy danh sách nhân viên:", error);
       }
     },
 
@@ -91,6 +91,7 @@ export default {
         console.error("Lỗi khi xóa nhân viên:", error);
       }
     },
+
     openEditForm(nhanvien) {
       this.selectedStaff = { ...nhanvien };
       this.showEditForm = true;
@@ -102,10 +103,10 @@ export default {
         await staffService.updateStaff(updatedStaff.msnv, updatedStaff);
         await this.fetchStaffs();
         this.showEditForm = false;
-        alert("Cập nhật sách thành công!");
+        alert("Cập nhật nhân viên thành công!");
         this.fetchStaffs();
       } catch (error) {
-        console.error("Lỗi khi cập nhật sách:", error);
+        console.error("Lỗi khi cập nhật nhân viên:", error);
       }
     },
 
@@ -114,7 +115,7 @@ export default {
         const response = await staffService.getStaffByName(query);
         this.staffs = response.data;
       } catch (error) {
-        console.log(` lỗi khi tìm kiếm ${error}`)
+        console.log(`Lỗi khi tìm kiếm ${error}`)
       }
     },
   },

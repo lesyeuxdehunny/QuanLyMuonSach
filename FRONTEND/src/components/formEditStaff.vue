@@ -11,7 +11,7 @@
       <label for="mk">Mật khẩu</label>
       <input id="mk" v-model="editStaff.password" />
 
-      <label for="chucvu">Chức Vụ</label>
+      <label for="chucvu">Chức vụ</label>
       <select v-model="editStaff.chucvu">
         <option value="gt" disabled>Chức vụ</option>
         <option value="Quản lý">Quản lý</option>

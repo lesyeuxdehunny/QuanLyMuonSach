@@ -9,7 +9,6 @@ router
   .post(nhanvien.create)
   .delete(nhanvien.deleteAll);
 
-
 router
   .route("/:id")
   .get(nhanvien.findOne)

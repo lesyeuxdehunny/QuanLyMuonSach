@@ -3,11 +3,11 @@
     <div class="form-container">
       <h2>Thêm NXB</h2>
       <form>
-        <label>Mã Nhà Xuất Bản:</label>
+        <label>Mã nhà xuất bản:</label>
         <input type="text" v-model="nxb.maNXB" @blur="validateMaNXB" required />
         <p v-if=" errorMessage" class="error-message" style="color: red;">{{ errorMessage }}</p>
 
-        <label>Tên Nhà Xuất Bản:</label>
+        <label>Tên nhà xuất bản:</label>
         <input type="text" v-model="nxb.tennxb" required />
 
         <label>Địa chỉ:</label>

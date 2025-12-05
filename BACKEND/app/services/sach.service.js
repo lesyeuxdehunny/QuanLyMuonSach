@@ -9,7 +9,7 @@ class sachService {
 
   async extractBookData(payload) {
 
-    // Kiểm tra xem maNXB có tồn tại không
+    //Kiểm tra xem maNXB có tồn tại không
     const nxb = await this.nxbService.findById(payload.maNXB);
     if (!nxb) {
       throw new Error(
@@ -36,7 +36,6 @@ class sachService {
 
   async create(payload) {
     const book = await this.extractBookData(payload); 
-    // kiểm tra
     const existBook = await this.book.findOne({ masach: book.masach });
 
     if (existBook) {

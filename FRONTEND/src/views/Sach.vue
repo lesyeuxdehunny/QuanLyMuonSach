@@ -85,7 +85,6 @@ export default {
       }
     },
 
-    //Xóa sách
     async deleteBook(id) {
       if (!confirm("Bạn có chắc chắn muốn xóa sách này?")) return;
       try {
@@ -98,7 +97,6 @@ export default {
       }
     },
 
-    //Tìm kiếm theo tên
     async searchBooks(query) {
       try {
         const response = await bookService.getBookByName(query);
@@ -108,7 +106,6 @@ export default {
       }
     },
 
-    //Chỉnh sửa
     openEditForm(book) {
       this.selectedBook = { ...book };
       this.showEditForm = true;
@@ -125,7 +122,6 @@ export default {
       }
     }
   },
-
   mounted() {
     this.fetchBooks();
   }

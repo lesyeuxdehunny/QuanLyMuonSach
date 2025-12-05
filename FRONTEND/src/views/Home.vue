@@ -44,14 +44,14 @@
         <div class="book-list">
           <div class="book-card" v-for="book in books" :key="book.masach">
             <h3>{{ book.tensach }}</h3>
-            <p><strong>Mã Sách:</strong> {{ book.masach }}</p>
-            <p><strong>Đơn Giá:</strong> {{ book.dongia }} VND</p>
+            <p><strong>Mã sách:</strong> {{ book.masach }}</p>
+            <p><strong>Đơn giá:</strong> {{ book.dongia }} VND</p>
             <p>
-              <strong>Số Quyển: {{ book.soquyen }} </strong>
+              <strong>Số quyển: {{ book.soquyen }} </strong>
             </p>
-            <p><strong>Năm Xuất Bản:</strong> {{ book.namxuatban }}</p>
+            <p><strong>Năm xuất bản:</strong> {{ book.namxuatban }}</p>
             <p><strong>Nhà xuất bản:</strong> {{ listNXB[book.maNXB] }}</p>
-            <p><strong>Nguồn Gốc/Tác Giả:</strong> {{ book.nguongoc_tacgia }}</p>
+            <p><strong>Nguồn gốc/Tác giả:</strong> {{ book.nguongoc_tacgia }}</p>
             <div class="actions">
               <button class="borrow" @click="openBorrowForm(book)">Mượn sách</button>
             </div>
@@ -105,6 +105,7 @@ export default {
         console.log("lỗi");
       }
     },
+
     async fetchBooks() {
       try {
         const response = await bookService.getAllBook();
@@ -123,29 +124,25 @@ export default {
       const madocgia = user ? user.id : null;
       if (!madocgia) {
         alert("Bạn cần đăng nhập dể mượn sách!!!");
-        // chuyển sang trang đăng nhập
+
         this.$router.push("/login");
       }
 
-      // console.log("Trạng thái",this.showBorrowForm)
-      // console.log("Mở form mượn sách:", book);
       this.selectedBook = { ...book, madocgia };
       this.showBorrowForm = true;
     },
 
-    // tìm kiếm theo tên 
-    // sửa lại theo tên sách hoặc tác giả
     async searchBooksByReader(query,searchCategory) {
       try {
         const lowerQuery = query.trim().toLowerCase();
         if (searchCategory === "nhaxuatban") {
-          // Trường hợp tìm theo tên nhà xuất bản
+          //Tìm theo tên nhà xuất bản
           this.books = this.orgBooks.filter(book => {
             const tenNXB = this.listNXB[book.maNXB]?.toLowerCase() || "";
             return tenNXB.includes(lowerQuery);
           });
         } else {
-          // Trường hợp tìm trực tiếp từ thuộc tính trong book
+          //Tìm trực tiếp từ thuộc tính trong book
           this.books = this.orgBooks.filter(book =>
             book[searchCategory]?.toLowerCase().includes(lowerQuery)
           );
@@ -153,14 +150,16 @@ export default {
         this.cloneBooks = [...this.books];
         this.resetAll();
       } catch (error) {
-        console.log(` lỗi khi tìm kiếm ${error}`)
+        console.log(`Lỗi khi tìm kiếm ${error}`)
       }
     },
+
     resetAll() {
       this.atoz = "default";
       this.priceOrder = "default";
       this.yearOrder = "default";
     },
+
     checkDefaultOther(activeCategory) {
       const sortMap = {
         name: ["priceOrder", "yearOrder"],

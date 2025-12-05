@@ -10,7 +10,7 @@
         <div class="borrowBook-list">
           <div class="borrowBook-card" v-for="borrowbook in borrowbooks" :key="borrowbook.maMuon">
             <h3>Thẻ mượn sách: {{ borrowbook.maMuon }}</h3>
-            <p><strong>Mã đọc giả: </strong> {{ borrowbook.madocgia }}</p>
+            <p><strong>Mã độc giả: </strong> {{ borrowbook.madocgia }}</p>
             <p><strong>Mã sách: </strong> {{ borrowbook.masach }}</p>
             <p><strong>Ngày mượn: </strong> {{ borrowbook.ngaymuon }}</p>
             <p><strong>Ngày đăng ký trả: </strong> {{ borrowbook.ngaytra }}</p>
@@ -21,7 +21,6 @@
             <div class="actions">
               <button @click="deleteBorrowBook(borrowbook.maMuon, borrowbook.datra, borrowbook.masach)"
                 class="delete">XÓA</button>
-              <!-- <button @click="openEditForm(borrowbook)" class="edit">Chỉnh sửa</button> -->
             </div>
           </div>
           <FormEditBorrow v-if="showEditForm" :borrowbook="selectedBorrowBook" @edit-borrowBook="editBorrowBook"
@@ -55,7 +54,7 @@ export default {
     };
   },
   methods: {
-    async fetchBorrowbooks() { // [GET]
+    async fetchBorrowbooks() {
       try {
         const borrowBooks = await borrowBookService.getAllBorrowBook()
         const response = await borrowBookService.getAllBorrowBook();
@@ -65,7 +64,7 @@ export default {
         console.error(`lỗi khi mượn sách ${error}`);
       }
     },
-    async deleteBorrowBook(id, datra, masach) { // [DELETE] id = maMuon
+    async deleteBorrowBook(id, datra, masach) {
       if (!confirm("Bạn có chắc chắn muốn xóa thẻ mượn sách này?")) return;
       try {
         console.log(datra)
@@ -78,16 +77,18 @@ export default {
 
           })
         }
+
         await borrowBookService.deleteBorrowBook(id);
         this.fetchBorrowbooks();
         alert("Xóa thẻ mượn sách thành công!");
       } catch (error) {
-        console.error("Lỗi khi xóa :", error);
+        console.error("Lỗi khi xóa:", error);
       }
     },
+
     openEditForm(borrowbook) {
-      this.selectedBorrowBook = { ...borrowbook }; // Lưu thẻ mượn sách đang chỉnh sửa
-      this.showEditForm = true; // Hiển thị form chỉnh sửa
+      this.selectedBorrowBook = { ...borrowbook }; //Lưu thẻ mượn sách đang chỉnh sửa
+      this.showEditForm = true; //Hiển thị form chỉnh sửa
     },
 
     async changeStatus(borrowBook) {
@@ -121,13 +122,12 @@ export default {
       }
     },
 
-
     async searchBorrowBook(query) {
       try {
         const response = await borrowBookService.getBorrowBookByName(query);
         this.borrowbooks = response.data;
       } catch (error) {
-        console.log(` lỗi khi tìm kiếm ${error}`)
+        console.log(`Lỗi khi tìm kiếm ${error}`)
       }
     },
   },

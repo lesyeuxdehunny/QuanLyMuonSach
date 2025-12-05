@@ -3,16 +3,16 @@
     <div class="borrow-form">
       <h2>Mượn Sách</h2>
       <div>
-        <label>Mã Đọc Giả:</label>
+        <label>Mã độc Giả:</label>
         <input v-model="borrowBook.madocgia" type="text" readonly />
       </div>
 
       <div>
-        <label>Mã Sách:</label>
+        <label>Mã sách:</label>
         <input v-model="borrowBook.masach" type="text" readonly />
       </div>
       <div>
-        <label>Ngày Mượn:</label>
+        <label>Ngày mượn:</label>
         <input v-model="borrowBook.ngaymuon" type="date"/>
       </div>
 
@@ -52,7 +52,7 @@ export default {
       const day = String(now.getDate()).padStart(2, "0");
       const month = String(now.getMonth() + 1).padStart(2, "0"); 
       const year = now.getFullYear();
-      return `MM${this.book.madocgia}_${this.book.masach}_${day}${month}${year}`;
+      return `${this.book.madocgia}_${this.book.masach}_${day}${month}${year}`;
     },
     async submitForm() {
       if (!this.borrowBook.ngaymuon ) {
@@ -64,7 +64,7 @@ export default {
         await borrowBookService.createBorrowBook(this.borrowBook);
         alert("Mượn sách thành công!");
         window.location.reload();
-        this.$emit("close"); // Đóng form
+        this.$emit("close");
       } catch (error) {
         console.error(` lỗi khi mượn sách ${error}`);
         console.log(error.response)

@@ -3,14 +3,14 @@
         <div class="form-container">
             <h3>Đổi Mật Khẩu</h3>
 
-            <label for="matkhau">Mật Khẩu Cũ</label>
+            <label for="matkhau">Mật khẩu cũ</label>
             <input id="matkhau" v-model="confirmOldPass" />
             <p v-if="errorMessageMKC" style="color: red;">{{ errorMessageMKC }}</p>
 
-            <label for="matkhaumoi">Mật Khẩu Mới</label>
+            <label for="matkhaumoi">Mật khẩu mới</label>
             <input id="matkhaumoi" v-model="newpass" />
 
-            <label for="matkhaumoi1">Nhập lại Mật Khẩu Mới</label>
+            <label for="matkhaumoi1">Nhập lại mật khẩu mới</label>
             <input id="matkhaumoi1" v-model="confirmNewPass" />
             <p v-if="errorMessageMKM" style="color: red;">{{ errorMessageMKM }}</p>
 
@@ -36,8 +36,6 @@ export default {
     },
     methods: {
         submitForm() {
-            // this.$emit("changePassword", this.editUser);
-            // this.errorMessage = "";
             this.ChangePass();
         },
         async ChangePass() {
@@ -50,11 +48,11 @@ export default {
                     this.$emit("changePassword", this.editUser);
                 }
                 else {
-                    this.errorMessageMKM = "Mật khẩu mới không khớp"
+                    this.errorMessageMKM = "Mật khẩu mới không khớp."
                 }
             }
             else {
-                this.errorMessageMKC = "Mật khẩu sai"
+                this.errorMessageMKC = "Mật khẩu sai!"
             }
         }
     },

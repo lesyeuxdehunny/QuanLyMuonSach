@@ -2,7 +2,7 @@ const NXBService = require("../services/nxb.service");
 const MongoDB = require("../utils/mongodb.util");
 const ApiError = require("../api-error");
 
-// Thêm NXB
+//Thêm NXB
 exports.create = async (req, res, next) => {
   if (!req.body?.tennxb) {
     return next(new ApiError(400, "Tên nxb không được để trống"));
@@ -34,7 +34,7 @@ exports.findAll = async (req, res, next) => {
   }
 };
 
-// tìm NXB theo maNXB 
+//Tìm NXB theo maNXB 
 exports.findOne = async (req, res, next) => {
   try {
     const nxbService = new NXBService(MongoDB.client);
@@ -50,7 +50,7 @@ exports.findOne = async (req, res, next) => {
   }
 };
 
-// Cập nhật thông tin NXB
+//Cập nhật thông tin NXB
 exports.update = async (req, res, next) => {
   const { maNXB } = req.params;
   const payload = req.body;
@@ -73,7 +73,7 @@ exports.update = async (req, res, next) => {
   }
 };
 
-// Xóa NXB
+//Xóa NXB
 exports.delete = async (req, res, next) => {
   try {
     const nxbService = new NXBService(MongoDB.client);
@@ -91,7 +91,7 @@ exports.delete = async (req, res, next) => {
   }
 };
 
-// Xóa tất cả NXB
+//Xóa tất cả NXB
 exports.deleteAll = async (req, res, next) => {
   try {
     const nxbService = new NXBService(MongoDB.client);

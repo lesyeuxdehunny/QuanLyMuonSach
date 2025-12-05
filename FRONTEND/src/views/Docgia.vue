@@ -5,18 +5,17 @@
       <Header @search="searchReader"/>
       <div class="content">
         <div class="top-bar">
-          <h2>Danh Sách Đọc Giả</h2>
+          <h2>Danh Sách Độc Giả</h2>
         </div>
 
         <div class="reader-list">
           <div class="reader-card" v-for="reader in readers" :key="reader.madocgia">
             <h3>{{ reader.holot }} {{ reader.ten }}</h3>
-            <p><strong>Mã đọc giả/Tên tài khoản:</strong> {{ reader.madocgia }}</p>
+            <p><strong>Mã độc giả/Tên tài khoản:</strong> {{ reader.madocgia }}</p>
             <p><strong>Ngày sinh:</strong> {{ reader.ngaysinh }}</p>
             <p><strong>Phái:</strong> {{ reader.phai }}</p>
             <p><strong>Địa chỉ:</strong> {{ reader.diachi }}</p>
             <p><strong>Số điện thoại:</strong> {{ reader.dienthoai }}</p>
-            <!-- <p><strong>Mật khẩu:</strong> {{ reader.pass }}</p> -->
             <div class="actions">
               <button @click="deleteReader(reader.madocgia)" class="delete">XÓA</button>
             </div>
@@ -51,17 +50,17 @@ export default {
         const response = await readerService.getAllReader(); 
         this.readers = response.data;
       } catch (error) {
-        console.error("Lỗi khi lấy danh sách sách:", error);
+        console.error("Lỗi khi lấy danh sách độc giả:", error);
       }
     },
 
     async deleteReader(id) {
-      if (!confirm("Bạn có chắc chắn muốn xóa đọc giả này?")) return;
+      if (!confirm("Bạn có chắc chắn muốn xóa độc giả này?")) return;
       try {
         await readerService.deleteDocGia(id);
         await this.fetchReaders(); // cập nhật lại
       } catch (error) {
-        console.error("Lỗi khi xóa đọc giả:", error);
+        console.error("Lỗi khi xóa độc giả:", error);
       }
     },
 
@@ -70,7 +69,7 @@ export default {
         const response = await readerService.getReaderByName(query);
         this.readers = response.data;
       } catch (error) {
-        console.log(` lỗi khi tìm kiếm ${error}`)
+        console.log(`Lỗi khi tìm kiếm ${error}`)
       }
     },
   },

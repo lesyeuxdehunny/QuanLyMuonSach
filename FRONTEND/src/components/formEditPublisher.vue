@@ -2,10 +2,10 @@
   <div class="form-overlay"> 
     <div class="form-container">
       <h3>Cập Nhật NXB</h3>
-      <label for="ma">Mã Nhà Xuất Bản</label>
+      <label for="ma">Mã nhà xuất bản</label>
       <input id="ma" v-model="editNXB.maNXB" disabled/>  
 
-      <label for="hoten">Tên Nhà Xuất Bản</label>
+      <label for="hoten">Tên nhà xuất bản</label>
       <input id="hoten" v-model="editNXB.tennxb"/>
 
       <label for="mk">Địa chỉ</label>

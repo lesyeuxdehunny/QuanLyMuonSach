@@ -2,9 +2,8 @@ const TheoDoiMuonSachService = require("../services/theodoimuonsach.service");
 const MongoDB = require("../utils/mongodb.util");
 const ApiError = require("../api-error");
 
-// Thêm sach mới
+//Thêm thẻ mượn sách mới
 exports.create = async (req, res, next) => {
-
   try {
     const theodoimuonsachService = new TheoDoiMuonSachService(MongoDB.client);
     const doc = await theodoimuonsachService.create(req.body);
@@ -17,7 +16,7 @@ exports.create = async (req, res, next) => {
   }
 };
 
-// Lấy danh sách "sách"
+//Lấy danh sách mượn sách
 exports.findAll = async (req, res, next) => {
   try {
     const theodoimuonsachService = new TheoDoiMuonSachService(MongoDB.client);
@@ -35,7 +34,7 @@ exports.findAll = async (req, res, next) => {
   }
 };
 
-// Lấy thông tin sách theo ID
+//Lấy thông tin mượn sách theo ID
 exports.find = async (req, res, next) => {
   try {
     const theodoimuonsachService = new TheoDoiMuonSachService(MongoDB.client);
@@ -56,7 +55,7 @@ exports.find = async (req, res, next) => {
   }
 };
 
-// Cập nhật thông tin mượn sách theo madocgia
+//Cập nhật thông tin mượn sách theo madocgia
 exports.update = async (req, res, next) => {
   const { id } = req.params; // Lấy ID từ URL
 
@@ -86,7 +85,7 @@ exports.update = async (req, res, next) => {
   }
 };
 
-// Xóa một cuốn sách theo ID
+//Xóa một theo dõi mượn sách theo ID
 exports.delete = async (req, res, next) => {
   try {
     const theodoimuonsachService = new TheoDoiMuonSachService(MongoDB.client);
@@ -104,7 +103,7 @@ exports.delete = async (req, res, next) => {
   }
 };
 
-// Xóa tất cả sách
+// Xóa tất cả theo dõi mượn sách
 exports.deleteAll = async (req, res, next) => {
   try {
     const theodoimuonsachService = new TheoDoiMuonSachService(MongoDB.client);

@@ -26,10 +26,10 @@ class nhanVienService {
         };
 
         await this.NhanVien.insertOne(adminData);
-        console.log("thêm admin thành công")
+        console.log("Thêm admin thành công")
       }
     } catch (error) {
-      console.error("thêm admin thất bại")
+      console.error("Thêm admin thất bại. Vui lòng thử lại")
     }
   }
 
@@ -52,7 +52,7 @@ class nhanVienService {
   //Tạo nhân viên mới
   async create(payload) {
     const NhanVien = this.extractNhanVienData(payload);
-    // Kiểm tra đã tồn tại chưa
+    //Kiểm tra đã tồn tại chưa
     const existNhanVien = await this.NhanVien.findOne({
       msnv: NhanVien.msnv,
     });
@@ -70,7 +70,6 @@ class nhanVienService {
     return await cursor.toArray();
   }
 
-  //Tìm theo tên
   async findByName(name) {
     if (!name) {
       return await this.find({});

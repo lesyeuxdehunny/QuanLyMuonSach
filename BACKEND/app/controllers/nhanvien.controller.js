@@ -2,7 +2,7 @@ const NhanVienService = require("../services/nhanvien.service");
 const MongoDB = require("../utils/mongodb.util");
 const ApiError = require("../api-error");
 
-// Tạo nhân viên mới
+//Tạo nhân viên mới
 exports.create = async (req, res, next) => {
   if (!req.body?.hotenNV) {
     return next(new ApiError(400, "Tên nhân viên không được để trống"));
@@ -17,7 +17,7 @@ exports.create = async (req, res, next) => {
   }
 };
 
-// Lấy danh sách nhân viên
+//Lấy danh sách nhân viên
 exports.findAll = async (req, res, next) => {
   try {
     const nhanVienService = new NhanVienService(MongoDB.client);
@@ -31,7 +31,7 @@ exports.findAll = async (req, res, next) => {
   }
 };
 
-// Tìm nhân viên theo ID
+//Tìm nhân viên theo ID
 exports.findOne = async (req, res, next) => {
   try {
     const nhanVienService = new NhanVienService(MongoDB.client);
@@ -45,7 +45,7 @@ exports.findOne = async (req, res, next) => {
   }
 };
 
-// Cập nhật nhân viên
+//Cập nhật nhân viên
 exports.update = async (req, res, next) => {
   if (Object.keys(req.body).length === 0) {
     return next(new ApiError(400, "Dữ liệu cập nhật không được để trống"));
@@ -63,7 +63,7 @@ exports.update = async (req, res, next) => {
   }
 };
 
-// Xóa nhân viên theo ID
+//Xóa nhân viên theo ID
 exports.delete = async (req, res, next) => {
   try {
     const nhanVienService = new NhanVienService(MongoDB.client);
@@ -75,7 +75,7 @@ exports.delete = async (req, res, next) => {
   }
 };
 
-// Xóa tất cả nhân viên
+//Xóa tất cả nhân viên
 exports.deleteAll = async (req, res, next) => {
   try {
     const nhanVienService = new NhanVienService(MongoDB.client);

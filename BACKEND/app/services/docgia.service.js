@@ -5,7 +5,7 @@ class DocGiaService {
     this.Reader = client.db().collection("readers");
   }
 
-  // dữ liệu đầu vào
+  //Dữ liệu đầu vào
   extractReaderData(payload) {
     const reader = {
       madocgia: payload.madocgia,
@@ -26,10 +26,10 @@ class DocGiaService {
     return reader;
   }
 
-  // tạo sách
+  //Tạo sách
   async create(payload) {
     const Reader = this.extractReaderData(payload);
-    // Kiểm tra đã tồn tại chưa
+    //Kiểm tra đã tồn tại chưa
     const existReader = await this.Reader.findOne({
       madocgia: Reader.madocgia,
     });
@@ -42,13 +42,13 @@ class DocGiaService {
     return result;
   }
 
-  // tìm kiếm
+  //Tìm kiếm
   async find(filter) {
     const cursor = await this.Reader.find(filter);
     return await cursor.toArray();
   }
 
-  // tìm theo tên
+  //Tìm theo tên
   async findByName(name) {
     if (!name) {
       return await this.find({});
@@ -64,12 +64,12 @@ class DocGiaService {
     return await this.find(searchQuery);
   }
 
-  // tìm theo ID
+  //Tìm theo ID
   async findByIdUser(id) {
     return await this.Reader.findOne({ madocgia: id });
   }
 
-  // cập nhật
+  //Cập nhật
   async update(id, payload) {
     const filter = {
       madocgia: id,
@@ -83,7 +83,7 @@ class DocGiaService {
     return res;
   }
 
-  // xóa một
+  //Xóa một
   async delete(id) {
     const result = await this.Reader.findOneAndDelete({
       madocgia: id,
@@ -91,7 +91,7 @@ class DocGiaService {
     return result;
   }
 
-  // xóa nhiều
+  //Xóa nhiều
   async deleteAll() {
     const result = await this.Reader.deleteMany({});
     return result.deletedCount;

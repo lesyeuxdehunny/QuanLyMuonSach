@@ -19,7 +19,7 @@
       <label for="namxuatban">Năm xuất bản</label>
       <input id="namxuatban" v-model="book.namxuatban" type="date" />
 
-      <label for="maNXB">Nhà Xuất Bản</label>
+      <label for="maNXB">Nhà xuất bản</label>
       <select v-model="book.maNXB" id="maNXB" @change="onNXBChange">
         <option disabled value="">-- Chọn nhà xuất bản --</option>
         <option v-for="nxb in publishers" :key="nxb.maNXB" :value="nxb.maNXB">

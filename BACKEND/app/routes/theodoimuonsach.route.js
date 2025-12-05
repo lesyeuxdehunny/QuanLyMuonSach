@@ -15,5 +15,4 @@ router
   .put(theodoimuonsach.update)
   .delete(theodoimuonsach.delete);
 
-
 module.exports = router;

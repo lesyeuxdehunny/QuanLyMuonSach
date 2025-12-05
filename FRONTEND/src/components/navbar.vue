@@ -33,7 +33,7 @@
       <li>
         <router-link to="/admin/readers">
           <i class="fas fa-book-reader"></i>
-          <span v-if="!isCollapsed">Quản lý Đọc Giả</span>
+          <span v-if="!isCollapsed">Quản lý Độc Giả</span>
         </router-link>
       </li>
       <li>

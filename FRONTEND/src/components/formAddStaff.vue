@@ -13,7 +13,7 @@
       <label for="mk">Mật khẩu</label>
       <input v-model="staff.password" />
 
-      <label for="chucvu">Chức Vụ</label>
+      <label for="chucvu">Chức vụ</label>
       <select v-model="staff.chucvu">
         <option value="gt" disabled>Chức vụ</option>
         <option value="Quản lý">Quản lý</option>
@@ -71,7 +71,6 @@ export default {
       this.validateMaNV();
       if (this.errorStaff) return; 
       this.$emit("add-staff", this.staff); 
-      // this.staff = { msnv: "", hotenNV: "", password: "", chucvu: "", diachi: "", dienthoai: "" };
     },
 
   }

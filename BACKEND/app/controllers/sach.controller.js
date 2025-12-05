@@ -2,7 +2,7 @@ const SachService = require("../services/sach.service");
 const MongoDB = require("../utils/mongodb.util");
 const ApiError = require("../api-error");
 
-// Thêm sách mới
+//Thêm sách mới
 exports.create = async (req, res, next) => {
   if (!req.body?.masach) {
     return next(new ApiError(400, "Mã sách không được để trống"));
@@ -17,7 +17,7 @@ exports.create = async (req, res, next) => {
   }
 };
 
-// Lấy danh sách "sách" 
+//Lấy danh sách sách
 exports.findAll = async (req, res, next) => {
   try {
     const sachService = new SachService(MongoDB.client);
@@ -32,7 +32,7 @@ exports.findAll = async (req, res, next) => {
   }
 };
 
-// Lấy thông tin sách theo ID
+//Lấy thông tin sách theo ID
 exports.findOne = async (req, res, next) => {
   try {
     const sachService = new SachService(MongoDB.client);
@@ -50,7 +50,7 @@ exports.findOne = async (req, res, next) => {
   }
 };
 
-// lấy sách theo tên
+//Lấy sách theo tên
 exports.findByName = async (req, res, next) => {
   try {
     const sachService = new SachService(MongoDB.client);
@@ -67,7 +67,7 @@ exports.findByName = async (req, res, next) => {
   }
 };
 
-// Cập nhật thông tin sách
+//Cập nhật thông tin sách
 exports.update = async (req, res, next) => {
   const { id } = req.params;
   const payload = req.body;
@@ -90,7 +90,7 @@ exports.update = async (req, res, next) => {
   }
 };
 
-// Xóa một cuốn sách theo ID
+//Xóa một quyển sách theo ID
 exports.delete = async (req, res, next) => {
   try {
     const sachService = new SachService(MongoDB.client);
@@ -108,7 +108,7 @@ exports.delete = async (req, res, next) => {
   }
 };
 
-// Xóa tất cả sách
+//Xóa tất cả sách
 exports.deleteAll = async (req, res, next) => {
   try {
     const sachService = new SachService(MongoDB.client);

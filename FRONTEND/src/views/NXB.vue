@@ -55,7 +55,7 @@ export default {
         const response = await nxbService.getAllNXB();
         this.nxbs = response.data;
       } catch (error) {
-        console.error("Lỗi khi lấy danh sách sách NXB:", error);
+        console.error("Lỗi khi lấy danh sách NXB:", error);
       }
     },
 
@@ -94,7 +94,7 @@ export default {
         await nxbService.updateNXB(updateNXB.maNXB, updateNXB);
         await this.fetchNXB();
         this.showEditForm = false;
-        alert("Cập nhật nhã xuất bản thành công!");
+        alert("Cập nhật nhà xuất bản thành công!");
         this.fetchNXB();
       } catch (error) {
         console.error("Lỗi khi cập nhật nhà xuất bản:", error);
@@ -106,7 +106,7 @@ export default {
         const response = await nxbService.getNXBByName(query);
         this.nxbs = response.data;
       } catch (error) {
-        console.log(` lỗi khi tìm kiếm ${error}`)
+        console.log(`Lỗi khi tìm kiếm ${error}`)
       }
     },
   },

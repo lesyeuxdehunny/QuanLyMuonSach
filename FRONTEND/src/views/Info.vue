@@ -8,14 +8,14 @@
           <h2>THÔNG TIN CÁ NHÂN</h2>
         </div>
         <div class="reader-card" v-if="reader">
-          <p><strong>Tên Đăng Nhập:</strong> {{ reader.madocgia }}</p>
-          <p><strong>Mật Khẩu:</strong> {{ reader.pass }}</p>
-          <p><strong>Họ Lót:</strong> {{ reader.holot }}</p>
+          <p><strong>Tên đăng nhập:</strong> {{ reader.madocgia }}</p>
+          <p><strong>Mật khẩu:</strong> {{ reader.pass }}</p>
+          <p><strong>Họ lót:</strong> {{ reader.holot }}</p>
           <p><strong>Tên:</strong> {{ reader.ten }}</p>
-          <p><strong>Ngày Sinh:</strong> {{ reader.ngaysinh }}</p>
-          <p><strong>Giới Tính:</strong> {{ reader.phai }}</p>
-          <p><strong>Địa Chỉ:</strong> {{ reader.diachi }}</p>
-          <p><strong>Số Điện Thoại:</strong> {{ reader.dienthoai }}</p>
+          <p><strong>Ngày sinh:</strong> {{ reader.ngaysinh }}</p>
+          <p><strong>Giới tính:</strong> {{ reader.phai }}</p>
+          <p><strong>Địa chỉ:</strong> {{ reader.diachi }}</p>
+          <p><strong>Số điện thoại:</strong> {{ reader.dienthoai }}</p>
 
           <div class="actions">
             <button @click="deleteReader(reader.madocgia)" class="delete">Xóa tài khoản</button>
@@ -68,22 +68,18 @@ export default {
         this.reader = response.data;
 
       } catch (error) {
-        console.error("Lỗi khi lấy danh sách sách:", error);
+        console.error("Lỗi khi lấy thông tin:", error);
       }
     },
 
    async deleteReader(id) {
       if (!confirm("Bạn có chắc chắn muốn xóa tài khoản này ?")) return;
       try {
-        // xóa tài khoản đọc giả thì thêm chữ deleted trước madocgia 
-        // tránh trường hợp cũng mã thì hiện ra lịch sử của người trước
-
         const updateMadocgia = `deleted_${this.reader.madocgia}`
         await readerService.updateReader(id, {madocgia: updateMadocgia});
 
         const borrowData = await borrowBookService.getByIdUser(this.reader.madocgia);
         if (borrowData.data.length > 0) {
-          // duyệt từng thẻ mượn và cập nhật mã độc giả
           await Promise.all(
             borrowData.data.map(async (borrow) => {
               await borrowBookService.updateBorrowBook(borrow.maMuon, { madocgia: updateMadocgia });
@@ -91,13 +87,14 @@ export default {
           );
         }
 
-        localStorage.removeItem("user"); // Xóa trạng thái đăng nhập
-        this.$router.push("/") // chuyển về trang chủ
+        localStorage.removeItem("user");
+        this.$router.push("/")
 
       } catch (error) {
-        console.error("Lỗi khi tài khoản:", error);
+        console.error("Lỗi khi xóa tài khoản:", error);
       }
     },
+
     openEditForm(reader) {
       this.selectedReader = { ...reader};  
       this.showEditForm = true;
@@ -122,8 +119,6 @@ export default {
       }
     },
   },
-    
-
   mounted() {
     this.fetchReader();
   }
@@ -230,4 +225,3 @@ button {
   }
 }
 </style>
-

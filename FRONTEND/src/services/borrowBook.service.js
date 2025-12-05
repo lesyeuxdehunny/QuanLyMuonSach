@@ -5,6 +5,10 @@ export default {
     return createAPI.get("/bookManagement");
   },
 
+  getByIdUser(id) {
+    return createAPI.get(`/bookManagement/${id}`);
+  },
+
   getBorrowBookByName(name) {
     return createAPI.get(`/bookManagement?ten=${encodeURIComponent(name)}`);
   },
@@ -19,9 +23,5 @@ export default {
 
   deleteBorrowBook(id) {
     return createAPI.delete(`/bookManagement/${id}`);
-  },
-
-  getByIdUser(id) {
-    return createAPI.get(`/bookManagement/${id}`);
   },
 };

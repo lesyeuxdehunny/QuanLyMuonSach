@@ -46,7 +46,7 @@
 export default {
   data() {
     return {
-      isLoggedIn: false, //Mặc định chưa đăng nhập
+      isLoggedIn: false, //Mặc định là chưa đăng nhập
       username: "",
       showFilter: false,
       searchCategory: "tensach",
@@ -150,7 +150,7 @@ export default {
   gap: 10px;
 }
 
-/* Icon logout thu gọn */
+/* Icon thu gọn */
 .icon-only {
   display: none;
   cursor: pointer;
@@ -189,7 +189,7 @@ export default {
   padding: 20px;
 }
 
-/* RESPONSIVE: chỉ ẩn full-info và hiện icon logout */
+/* RESPONSIVE: chỉ ẩn full-info và hiện icon */
 @media (max-width: 768px) {
   .full-info {
     display: none;

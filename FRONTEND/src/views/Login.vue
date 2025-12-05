@@ -20,7 +20,7 @@
       <form v-else @submit.prevent="register">
         <input v-model="registerData.madocgia" @blur="checkMadocgia" placeholder="Nhập tên đăng nhập" required />
         <p v-if="madocgiaError" style="color: #fff; font-size: 16px;">{{ madocgiaError }}</p>
-        <input v-model="registerData.holot" placeholder="nhập họ lót" required />
+        <input v-model="registerData.holot" placeholder="Nhập họ lót" required />
         <input v-model="registerData.ten" placeholder="Nhập tên" required />
         <input v-model="registerData.ngaysinh" type="text" placeholder="Nhập ngày sinh" onfocus="(this.type='date')"
           onblur="(this.type='text')" />
@@ -77,7 +77,6 @@ export default {
       try {
         console.log(this.registerData.madocgia)
         const response = await readerService.getByIdUser(this.registerData.madocgia);
-        // const madocgiaList = readerRes.data.map(reader => reader.madocgia);
         if (response.data) {
           this.madocgiaError = "Tên tài khoản đã tồn tại"
         }
@@ -92,11 +91,11 @@ export default {
 
     async login() {
       try {
-        // lấy ds đọc giả và nhân viên
+        //Lấy danh sách độc giả và nhân viên
         const readerRes = await readerService.getAllReader();
         const staffRes = await staffService.getAllStaff();
 
-        // kiểm tra ai là người đang đăng nhập
+        //Kiểm tra vai trò nào đang đăng nhập
         const user = readerRes.data.find(reader => reader.madocgia === this.loginData.tendangnhap)
 
         const staff = staffRes.data.find(staff => staff.msnv === this.loginData.tendangnhap)
@@ -124,7 +123,6 @@ export default {
         await this.checkMadocgia();
         if (this.madocgiaError) return
 
-        // kiểm tra mật khẩu trùng khớp
         if (this.registerData.pass !== this.confirmPassword) {
           alert("Mật khẩu không trùng khớp!");
           return;
@@ -133,13 +131,12 @@ export default {
         await readerService.createReader(this.registerData);
 
         alert("Đăng ký thành công! Hãy đăng nhập.");
-        this.isLogin = true; // Chuyển về trang đăng nhập
+        this.isLogin = true; //Chuyển sang trang đăng nhập
       } catch (error) {
         console.error("Lỗi khi tạo tài khoản:", error);
         alert(`Có lỗi xảy ra, vui lòng thử lại. ${error}`);
       }
     },
-
   }
 };
 </script>

@@ -43,7 +43,7 @@ export default {
   props: ["book"],
   data() {
     return {
-      editedBook: { ...this.book }, //Không để ảnh hưởng đến dữ liệu cha đã được nhập trước đó
+      editedBook: { ...this.book }, //Không làm ảnh hưởng đến dữ liệu cha đã được nhập trước đó
       publishers: [],
       errorMessage: "",
     };

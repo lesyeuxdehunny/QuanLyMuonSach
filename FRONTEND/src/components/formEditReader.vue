@@ -2,13 +2,13 @@
   <div class="form-overlay"> 
     <div class="form-container">
       <h3>Cập Nhật Thông Tin</h3>
-      <label for="tendangnhap">Tên Đăng Nhập</label>
+      <label for="tendangnhap">Tên đăng nhập</label>
       <input id="tendangnhap" v-model="editUser.madocgia"/>  
 
-      <label for="matkhau">Mật Khẩu</label>
+      <label for="matkhau">Mật khẩu</label>
       <input id="hoten" v-model="editUser.pass"/>
 
-      <label for="ho">Họ Lót</label>
+      <label for="ho">Họ lót</label>
       <input id="ho" v-model="editUser.holot"/>
 
       <label for="ten">Tên</label>
@@ -17,7 +17,7 @@
       <label for="ns">Ngày sinh</label>
       <input id="ns" type="date" v-model="editUser.ngaysinh"/>
 
-      <label for="gt">Giới Tính</label>
+      <label for="gt">Giới tính</label>
       <select id="gt" v-model="editUser.phai">
         <option value="Nam">Nam</option>
         <option value="Nữ">Nữ</option>
@@ -26,7 +26,7 @@
       <label for="mk">Địa chỉ</label>
       <input id="mk" v-model="editUser.diachi"/>
 
-      <label for="sdt">Số Điện Thoại</label>
+      <label for="sdt">Số điện thoại</label>
       <input id="sdt" v-model="editUser.dienthoai"/>
 
       <button @click="submitForm" class="submit">Lưu</button>
@@ -48,7 +48,6 @@ export default {
   methods: {
     submitForm() {
         this.$emit("editUser", this.editUser); 
-        // this.editUser = { madocgia: "", pass: "", holot: "", ten: "", ngaysinh: "", phai: "", diachi: "", dienthoai: "" };
         this.errorMessage = "";
     },
   },

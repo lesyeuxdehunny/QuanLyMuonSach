@@ -8,7 +8,7 @@
             <label for="masach">Mã sách</label>
             <input id="masach" v-model="editedBorrowBook.masach" disabled />
 
-            <label for="ngaymuon">Ngày Mượn</label>
+            <label for="ngaymuon">Ngày mượn</label>
             <input id="ngaymuon" type="date" v-model="editedBorrowBook.ngaymuon" />
 
             <label for="ngaytra">Ngày trả</label>
@@ -32,7 +32,6 @@ export default {
     methods: {
         submitForm() {
             this.$emit("edit-borrowBook", this.editedBorrowBook);
-            // this.editedBorrowBook = { madocgia: "", masach: "", ngaytra: "", ngaymuon: "" };
             this.errorMessage = "";
         },
     },

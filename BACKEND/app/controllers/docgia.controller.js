@@ -2,7 +2,7 @@ const DocGiaService = require("../services/docgia.service");
 const MongoDB = require("../utils/mongodb.util");
 const ApiError = require("../api-error");
 
-// Thêm mới đọc giả
+//Thêm mới độc giả
 exports.create = async (req, res, next) => {
   
   if (!req.body?.ten) {
@@ -14,11 +14,11 @@ exports.create = async (req, res, next) => {
     const doc = await docGiaService.create(req.body);
     return res.send(doc);
   } catch (error) {
-    return next(new ApiError(500, `Lỗi khi tạo đọc giả ${error}`));
+    return next(new ApiError(500, `Lỗi khi tạo độc giả ${error}`));
   }
 };
 
-// Lấy danh sách đọc giả tìm theo tên
+//Lấy danh sách độc giả tìm theo tên
 exports.findAll = async (req, res, next) => {
   try {
     const docGiaService = new DocGiaService(MongoDB.client);
@@ -29,29 +29,29 @@ exports.findAll = async (req, res, next) => {
 
     return res.send(docs);
   } catch (error) {
-    return next(new ApiError(500, "Lỗi khi lấy danh sách đọc giả"));
+    return next(new ApiError(500, "Lỗi khi lấy danh sách độc giả"));
   }
 };
 
-// Lấy thông tin một đoc giả theo ID
+//Lấy thông tin một độc giả theo ID
 exports.find = async (req, res, next) => {
   try {
     const docGiaService = new DocGiaService(MongoDB.client);
     const doc = await docGiaService.findByIdUser(req.params.id);
 
     if (!doc) {
-      return next(new ApiError(404, "Không tìm thấy đọc giả"));
+      return next(new ApiError(404, "Không tìm thấy độc giả"));
     }
 
     return res.send(doc);
   } catch (error) {
     return next(
-      new ApiError(500, `Lỗi khi lấy đọc giả với ID=${req.params.id} ${error}`)
+      new ApiError(500, `Lỗi khi lấy độc giả với ID=${req.params.id} ${error}`)
     );
   }
 };
 
-// Cập nhật thông tin đọc giả
+//Cập nhật thông tin độc giả
 exports.update = async (req, res, next) => {
   const { id } = req.params;
   const payload = req.body;
@@ -65,43 +65,43 @@ exports.update = async (req, res, next) => {
     const doc = await docGiaService.update(id, payload);
 
     if (!doc) {
-      return next(new ApiError(404, "Không tìm thấy đọc giả để cập nhật"));
+      return next(new ApiError(404, "Không tìm thấy độc giả để cập nhật"));
     }
 
     return res.send(doc);
   } catch (error) {
-    return next(new ApiError(500, `Lỗi khi cập nhật đọc giả với ID=${id}`));
+    return next(new ApiError(500, `Lỗi khi cập nhật độc giả với ID=${id}`));
   }
 };
 
-// Xóa một đọc giả theo ID
+//Xóa một độc giả theo ID
 exports.delete = async (req, res, next) => {
   try {
     const docGiaService = new DocGiaService(MongoDB.client);
     const doc = await docGiaService.delete(req.params.id);
 
     if (!doc) {
-      return next(new ApiError(404, "Không tìm thấy đọc giả để xóa"));
+      return next(new ApiError(404, "Không tìm thấy độc giả để xóa"));
     }
 
     return res.send(doc);
   } catch (error) {
     return next(
-      new ApiError(500, `Lỗi khi xóa đọc giả với ID=${req.params.id}`)
+      new ApiError(500, `Lỗi khi xóa độc giả với ID=${req.params.id}`)
     );
   }
 };
 
-// Xóa tất cả đoc giả
+// Xóa tất cả độc giả
 exports.deleteAll = async (req, res, next) => {
   try {
     const docGiaService = new DocGiaService(MongoDB.client);
     const deletedCount = await docGiaService.deleteAll();
 
     return res.send({
-      message: `${deletedCount} đọc giả đã được xóa thành công`,
+      message: `${deletedCount} độc giả đã được xóa thành công`,
     });
   } catch (error) {
-    return next(new ApiError(500, "Lỗi khi xóa tất cả đọc giả"));
+    return next(new ApiError(500, "Lỗi khi xóa tất cả độc giả"));
   }
 };

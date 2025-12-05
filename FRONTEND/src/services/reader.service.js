@@ -5,6 +5,10 @@ export default {
     return createAPI.get("/readers");
   },
 
+  getByIdUser(id) {
+    return createAPI.get(`/readers/${id}`);
+  },
+
   getReaderByName(name) {
     return createAPI.get(`/readers?ten=${encodeURIComponent(name)}`);
   },
@@ -19,9 +23,5 @@ export default {
 
   deleteDocGia(id) {
     return createAPI.delete(`/readers/${id}`);
-  },
-
-  getByIdUser(id) {
-    return createAPI.get(`/readers/${id}`);
   },
 };

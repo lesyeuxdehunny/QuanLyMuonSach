@@ -10,7 +10,7 @@ class theoDoiMuonSachService {
   }
 
   async extractManagementBookData(payload) {
-    // Kiểm tra xem masach và madocgia có tồn tại không
+    //Kiểm tra xem masach và madocgia có tồn tại không
     const sach = await this.sachService.findById(payload.masach);
 
     if (!sach) {
@@ -18,7 +18,7 @@ class theoDoiMuonSachService {
     }
     const docgia = await this.docgiaService.findByIdUser(payload.madocgia);
     if (!docgia) {
-      throw new Error("Không tìm thấy thông tin đọc giả ");
+      throw new Error("Không tìm thấy thông tin độc giả");
     }
 
     const managementBook = {
@@ -27,7 +27,7 @@ class theoDoiMuonSachService {
       masach: payload.masach,
       ngaymuon: payload.ngaymuon,
       ngaytra: payload.ngaytra,
-      datra: false, // trạng thái trả sách
+      datra: false, //Trạng thái trả sách
     };
 
     Object.keys(managementBook).forEach(
@@ -40,7 +40,7 @@ class theoDoiMuonSachService {
     const managementBook = await this.extractManagementBookData(payload);
     const sach = await this.sachService.findById(payload.masach);
     
-    if(sach.soquyen===0) throw new Error("Số lượng sách đã hết, không thể mượn !");
+    if(sach.soquyen===0) throw new Error("Số lượng sách đã hết, không thể mượn!");
     
       const result = await this.managementBook.insertOne(managementBook);
     await this.sachService.update(payload.masach, {
@@ -55,7 +55,6 @@ class theoDoiMuonSachService {
     return await cursor.toArray();
   }
 
-  // tìm theo tên
   async findByName(name) {
     if (!name) {
       return await this.find({});

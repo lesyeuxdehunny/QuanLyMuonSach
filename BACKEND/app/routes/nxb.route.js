@@ -9,7 +9,6 @@ router
   .post(nxb.create)
   .delete(nxb.deleteAll);
 
-
 router
   .route("/:maNXB")
   .get(nxb.findOne)

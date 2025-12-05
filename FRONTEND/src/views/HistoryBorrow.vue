@@ -11,7 +11,7 @@
           <thead>
             <tr>
               <th>Mã mượn sách</th>
-              <th>Mã đọc giả</th>
+              <th>Mã độc giả</th>
               <th>Mã Sách</th>
               <th>Tên sách</th>
               <th>Ngày mượn</th>
@@ -68,13 +68,13 @@ export default {
         }
       }
     },
-    async fetchBorrowbooks() { // [GET]
+
+    async fetchBorrowbooks() {
       try {
-        //lấy id của user
+        //Lấy id của user
         const user = JSON.parse(localStorage.getItem("user"));
         const madocgia = user ? user.id : null;
 
-        // console.log(madocgia);
         if (!madocgia) {
           console.error("Người dùng chưa đăng nhập", error);
           return;
@@ -88,18 +88,19 @@ export default {
         console.error("Lỗi khi lấy danh sách mượn sách:", error);
       }
     },
-    async deleteBorrowBook(id) { // [DELETE]
+
+    async deleteBorrowBook(id) {
       if (!confirm("Bạn có chắc chắn muốn xóa dòng này?")) return;
       try {
         await borrowBookService.deleteBorrowBook(id);
         this.fetchBorrowbooks();
       } catch (error) {
-        console.error("Lỗi khi xóa :", error);
+        console.error("Lỗi khi xóa:", error);
       }
     },
-    async editBook(book) { //[PUT]
+
+    async editBook(book) {
       try {
-        // const updatedBook = { ...book, tensach: updatedTitle }; 
         const response = await borrowBookService.updateBorrowBook(book.maMuon, book);
 
         this.books = this.books.map(b => (b._id === book._id ? response.data : b));
@@ -107,7 +108,6 @@ export default {
         console.error("Lỗi khi chỉnh sửa:", error);
       }
     }
-
   },
   mounted() {
     this.fetchBorrowbooks();

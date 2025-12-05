@@ -13,7 +13,7 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const user = JSON.parse(localStorage.getItem("user"));
 
-  //Nếu chưa đăng nhập và không phải trang chủ thì không cho truy cập
+  //Chưa đăng nhập thì chỉ được phép truy cập trang chủ
   if (!user && (to.path !== "/" && to.path !== "/login")) {
     alert("Bạn cần đăng nhập để truy cập trang này!");
     //Chuyển hướng về trang chủ
