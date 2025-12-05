@@ -193,11 +193,11 @@ export default {
       if (category === "price") {
         if (this.priceOrder === "default") {
           this.priceOrder = "asc";
-          this.books.sort((a, b) => a.dongia.localeCompare(b.dongia));
+          this.books.sort((a, b) => a.dongia - b.dongia);
         }
         else if (this.priceOrder === "asc") {
           this.priceOrder = "desc";
-          this.books.sort((a, b) => b.dongia.localeCompare(a.dongia));
+          this.books.sort((a, b) => b.dongia - a.dongia);
         }
         else {
           this.priceOrder = "default";

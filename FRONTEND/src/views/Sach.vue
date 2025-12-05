@@ -71,7 +71,9 @@ export default {
 
     async create(book) {
       try {
-        book.soquyen = parseInt(book.soquyen); //Chuyển số quyển sang kiểu số
+        //Chuyển đơn giá, số quyển thành Number
+        book.dongia = parseInt(book.dongia);
+        book.soquyen = parseInt(book.soquyen);
         //Kiểm tra sách đã tồn tại chưa
         await bookService.createBook(book);
         await this.fetchBooks(); //Cập nhật danh sách sau khi thêm thành công
