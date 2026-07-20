@@ -116,7 +116,7 @@ Dự án thông thường sẽ được chia thành hai thư mục chính bên t
     VITE_APP_API_URL=http://localhost:2512/api
     ``` -->
 
-4.  Khởi chạy Server backend:
+3.  Khởi chạy Server backend:
     ```bash
     npm start
     ```
