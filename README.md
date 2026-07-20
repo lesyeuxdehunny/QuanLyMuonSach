@@ -103,7 +103,6 @@ Dự án thông thường sẽ được chia thành hai thư mục chính bên t
 1.  Di chuyển vào thư mục backend:
     ```bash
     cd backend
-    # hoặc cd server (tùy cấu trúc thư mục thực tế của repository)
     ```
 
 2.  Cài đặt các gói thư viện phụ thuộc (dependencies):
