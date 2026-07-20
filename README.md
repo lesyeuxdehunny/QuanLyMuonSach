@@ -110,13 +110,11 @@ Dự án thông thường sẽ được chia thành hai thư mục chính bên t
     npm install
     ```
 
-3.  **Cấu hình biến môi trường:**
-    Tạo một file có tên là `.env` tại thư mục gốc của backend (nếu chưa có) và cấu hình các thông số kết nối cơ sở dữ liệu và cổng (Hệ thống chạy mặc định trên cổng `2512` theo đặc tả giao diện):
+<!-- 3.  **Cấu hình kết nối API (Nếu có):**
+    Kiểm tra file cấu hình API endpoint (thường là trong file `src/services/api.service.js` hoặc một file `.env` của frontend) đảm bảo đường dẫn trỏ đúng về backend:
     ```env
-    PORT=2512
-    MONGO_URI=mongodb://localhost:27017/library
-    # Hoặc sử dụng chuỗi kết nối MongoDB Atlas nếu dùng database cloud
-    ```
+    VITE_APP_API_URL=http://localhost:2512/api
+    ``` -->
 
 4.  Khởi chạy Server backend:
     ```bash
@@ -131,7 +129,6 @@ Dự án thông thường sẽ được chia thành hai thư mục chính bên t
 1.  Mở một cửa sổ Terminal mới (giữ nguyên cửa sổ Backend đang chạy), di chuyển từ thư mục gốc của dự án vào thư mục frontend:
     ```bash
     cd frontend
-    # hoặc cd client (tùy cấu trúc thư mục thực tế của repository)
     ```
 
 2.  Cài đặt các gói thư viện phụ thuộc cho giao diện:
