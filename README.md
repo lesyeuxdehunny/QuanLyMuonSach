@@ -139,13 +139,7 @@ Dự án thông thường sẽ được chia thành hai thư mục chính bên t
     npm install
     ```
 
-3.  **Cấu hình kết nối API (Nếu có):**
-    Kiểm tra file cấu hình API endpoint (thường là trong file `src/services/api.service.js` hoặc một file `.env` của frontend) đảm bảo đường dẫn trỏ đúng về backend:
-    ```env
-    VITE_APP_API_URL=http://localhost:2512/api
-    ```
-
-4.  Khởi chạy ứng dụng Frontend Vue.js:
+3.  Khởi chạy ứng dụng Frontend Vue.js:
     ```bash
     npm run dev
     ```
