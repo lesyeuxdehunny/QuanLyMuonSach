@@ -1,6 +1,6 @@
 # Hệ thống Quản lý Mượn sách - Website Thư viện "Trạm Dừng Chân"
 
-Dự án môn học: **Phát triển Ứng dụng Web (CT449)**  
+Dự án môn học: **Bảo trì phần mềm (CT244)**  
 Trường Công nghệ Thông tin và Truyền thông - Đại học Cần Thơ.
 
 ---
@@ -77,7 +77,7 @@ Cơ sở dữ liệu bao gồm 5 bảng (Collections) chính tương ứng với
 Để chạy được dự án sau khi clone từ GitHub về máy, hãy thực hiện theo các bước chi tiết dưới đây:
 
 ### 📋 Yêu cầu tiên quyết
-Trước khi bắt đầu, hãy đảm bảo máy tính của bạn đã cài đặt sẵn:
+Đảm bảo máy tính đã cài đặt sẵn:
 *   [Node.js](https://nodejs.org/) (Khuyến nghị phiên bản LTS mới nhất - v18 hoặc v20+).
 *   [MongoDB Community Server](https://www.mongodb.com/try/download/community) cài đặt cục bộ và đang khởi chạy, hoặc một tài khoản [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) trực tuyến.
 *   Git để quản lý mã nguồn.
@@ -88,8 +88,8 @@ Trước khi bắt đầu, hãy đảm bảo máy tính của bạn đã cài đ
 Mở Terminal / Command Prompt trên máy tính của bạn, di chuyển đến thư mục muốn lưu trữ dự án và chạy lệnh:
 
 ```bash
-git clone https://github.com/lesyeuxdehunny/B2303809_DangNguyenGiaHan_QuanLyMuonSach.git
-cd B2303809_DangNguyenGiaHan_QuanLyMuonSach
+git clone https://github.com/lesyeuxdehunny/QuanLyMuonSach.git
+cd QuanLyMuonSach
 ```
 
 Dự án thông thường sẽ được chia thành hai thư mục chính bên trong:
@@ -123,7 +123,7 @@ Dự án thông thường sẽ được chia thành hai thư mục chính bên t
     ```bash
     npm start
     ```
-    *Màn hình thông báo `Server is running on port 2511` và `Connected to MongoDB` thành công là bạn đã hoàn tất phần Backend.*
+    *Màn hình thông báo `Server is running on port 2511` và `Connected to the database!`*
 
 ---
 
@@ -152,17 +152,6 @@ Dự án thông thường sẽ được chia thành hai thư mục chính bên t
     ```
 
 5.  **Truy cập ứng dụng:**
-    Terminal sẽ cung cấp một đường dẫn cục bộ (`http://localhost:5173`). 
-    * Mở trình duyệt web và truy cập vào đường dẫn đó để trải nghiệm website.
-    * Để truy cập trang Quản lý của Admin, bạn có thể chuyển hướng đến route đăng nhập tương ứng
+    Terminal sẽ cung cấp một đường dẫn cục bộ (`http://localhost:2512`). 
+    * Mở trình duyệt web và truy cập vào đường dẫn đó để sử dụng website.
 
-<!-- ---
-
-## 👥 Thông tin tác giả
-*   **Sinh viên thực hiện:** Đặng Nguyễn Gia Hân
-*   **Mã số sinh viên (MSSV):** B2303809
-*   **Giảng viên hướng dẫn:** ThS. Nguyễn Minh Trung
-*   **Đơn vị:** Trường Công nghệ Thông tin và Truyền thông - Đại học Cần Thơ.
-*   **Ngày hoàn thành báo cáo:** 06 tháng 12 năm 2025
-
---- -->
