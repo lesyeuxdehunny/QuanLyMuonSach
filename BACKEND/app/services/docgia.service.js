@@ -1,4 +1,5 @@
 const { ObjectId } = require("mongodb");
+const bcrypt = require("bcryptjs");
 
 class DocGiaService {
   constructor(client) {
@@ -37,6 +38,11 @@ class DocGiaService {
       throw new Error("Độc giả đã tồn tại");
     }
 
+    // Mã hoá mật khẩu trước khi lưu
+    if (Reader.pass) {
+      Reader.pass = await bcrypt.hash(Reader.pass, 10);
+    }
+
     const result = await this.Reader.insertOne(Reader);
     return result;
   }
@@ -44,7 +50,9 @@ class DocGiaService {
   //Tìm kiếm
   async find(filter) {
     const cursor = await this.Reader.find(filter);
-    return await cursor.toArray();
+    // Không trả về trường mật khẩu ra ngoài API
+    const docs = await cursor.toArray();
+    return docs.map(({ pass, ...rest }) => rest);
   }
 
   //Tìm theo tên
@@ -74,11 +82,19 @@ class DocGiaService {
       madocgia: id,
     };
     const data = this.extractReaderData(payload);
+
+    if (data.pass) {
+      data.pass = await bcrypt.hash(data.pass, 10);
+    } else {
+      delete data.pass; // không ghi đè bằng rỗng nếu không đổi mật khẩu
+    }
+
     const res = await this.Reader.findOneAndUpdate(
       filter,
       { $set: data },
       { returnDocument: "after" }
     );
+    if (res && res.pass) delete res.pass;
     return res;
   }
 

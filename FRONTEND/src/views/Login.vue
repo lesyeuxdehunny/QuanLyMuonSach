@@ -42,7 +42,7 @@
 
 <script>
 import readerService from "@/services/reader.service";
-import staffService from "@/services/staff.service";
+import authService from "@/services/auth.service";
 
 export default {
   data() {
@@ -90,33 +90,26 @@ export default {
     },
 
     async login() {
-      try {
-        //Lấy danh sách độc giả và nhân viên
-        const readerRes = await readerService.getAllReader();
-        const staffRes = await staffService.getAllStaff();
+    try {
+      const response = await authService.login(
+        this.loginData.tendangnhap,
+        this.loginData.password
+      );
+      const { token, user } = response.data;
 
-        //Kiểm tra vai trò nào đang đăng nhập
-        const user = readerRes.data.find(reader => reader.madocgia === this.loginData.tendangnhap)
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(user));
 
-        const staff = staffRes.data.find(staff => staff.msnv === this.loginData.tendangnhap)
-
-        if (user && user.pass === this.loginData.password) {
-          this.$router.push("/");
-          localStorage.setItem("user", JSON.stringify({ id: user.madocgia, role: "reader", username: user.ten }));
-          this.$router.push("/");
-        }
-        else if (staff && staff.password === this.loginData.password) {
-          localStorage.setItem("user", JSON.stringify({ id: staff.msnv, role: "staff", username: staff.hotenNV, chucvu:staff.chucvu }));
-          this.$router.push("/admin/");
-        }
-        else {
-          alert("Tên đăng nhập hoặc mật khẩu không chính xác");
-        }
+      if (user.role === "staff") {
+        this.$router.push("/admin/");
+      } else {
+        this.$router.push("/");
       }
-      catch (error) {
-        console.error("Lỗi khi đăng nhập", error);
-      }
-    },
+    } catch (error) {
+      const msg = error.response?.data?.message || "Đăng nhập thất bại";
+      alert(msg);
+    }
+  },
 
 async register() {
   try {

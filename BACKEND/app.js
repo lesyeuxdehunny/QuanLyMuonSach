@@ -1,12 +1,14 @@
 const express = require("express");
 const cors = require("cors");
 
+const authRouter = require("./app/routes/auth.route");
 const docgiaRouter = require("./app/routes/docgia.route");
 const nhanvienRouter = require("./app/routes/nhanvien.route");
 const sachRouter = require("./app/routes/sach.route");
 const nxbRouter = require("./app/routes/nxb.route");
 const theodoimuonsachRouter = require("./app/routes/theodoimuonsach.route");
 
+const { verifyToken, requireStaff } = require("./app/middlewares/auth.middleware");
 const ApiError = require("./app/api-error");
 
 const app = express();
@@ -14,11 +16,18 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-app.use("/readers", docgiaRouter);
-app.use("/staffs", nhanvienRouter);
-app.use("/books", sachRouter);
-app.use("/publishers", nxbRouter);
-app.use("/bookManagement", theodoimuonsachRouter);
+// Route công khai: đăng nhập, đăng ký độc giả
+app.use("/auth", authRouter);
+app.post("/readers", docgiaRouter);
+
+// Độc giả tự quản lý thông tin cá nhân -> cần đăng nhập nhưng không cần quyền staff
+app.use("/readers", verifyToken, docgiaRouter);
+
+// Các route quản trị -> bắt buộc là staff
+app.use("/staffs", verifyToken, requireStaff, nhanvienRouter);
+app.use("/books", verifyToken, sachRouter); // đọc sách cho phép mọi user đã đăng nhập, ghi thì chặn thêm bên dưới nếu cần
+app.use("/publishers", verifyToken, requireStaff, nxbRouter);
+app.use("/bookManagement", verifyToken, theodoimuonsachRouter);
 
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to book borrowing management application." });

@@ -1,25 +1,23 @@
 const { ObjectId } = require("mongodb");
+const bcrypt = require("bcryptjs");
 
 class nhanVienService {
   constructor(client) {
     this.NhanVien = client.db().collection("staffs");
-    // mặc dịnh 1 tài khoản admin
-    this.init();
   }
 
-  async init() {
-    await this.createAdmin();
-  }
-  
   async createAdmin(){
     try {
       const admin = await this.NhanVien.findOne({msnv: "admin"});
 
       if (!admin) {
+        // Mã hoá mật khẩu admin mặc định trước khi lưu
+        const hashedPassword = await bcrypt.hash("admin", 10);
+
         const adminData = {
           msnv: "admin",
           hotenNV: "Administrator",
-          password: "admin",
+          password: hashedPassword,
           chucvu: "Quản lý",
           diachi: "",
           dienthoai: "",
@@ -61,13 +59,20 @@ class nhanVienService {
       throw new Error("Thông tin nhân viên đã tồn tại");
     }
 
+    // Mã hoá mật khẩu trước khi lưu
+    if (NhanVien.password) {
+      NhanVien.password = await bcrypt.hash(NhanVien.password, 10);
+    }
+
     const result = await this.NhanVien.insertOne(NhanVien);
     return result;
   }
 
   async find(filter) {
     const cursor = await this.NhanVien.find(filter);
-    return await cursor.toArray();
+    const docs = await cursor.toArray();
+    // Không trả về trường mật khẩu ra ngoài API
+    return docs.map(({ password, ...rest }) => rest);
   }
 
   async findByName(name) {
@@ -96,11 +101,21 @@ class nhanVienService {
       msnv: id,
     };
     const data = this.extractNhanVienData(payload);
+
+    // Chỉ hash lại mật khẩu nếu có gửi mật khẩu mới, tránh ghi đè bằng rỗng
+    if (data.password) {
+      data.password = await bcrypt.hash(data.password, 10);
+    } else {
+      delete data.password;
+    }
+
     const res = await this.NhanVien.findOneAndUpdate(
       filter,
       { $set: data },
       { returnDocument: "after" }
     );
+
+    if (res && res.password) delete res.password;
     return res;
   }
 
