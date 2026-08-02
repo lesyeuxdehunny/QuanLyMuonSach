@@ -5,6 +5,7 @@ const MongoDB = require("../utils/mongodb.util");
 const DocGiaService = require("../services/docgia.service");
 const NhanVienService = require("../services/nhanvien.service");
 const ApiError = require("../api-error");
+const { sendResetPasswordEmail } = require("../utils/mailer");
 
 exports.login = async (req, res, next) => {
   const { username, password } = req.body;
@@ -56,5 +57,73 @@ exports.login = async (req, res, next) => {
     return next(new ApiError(401, "Tên đăng nhập hoặc mật khẩu không chính xác"));
   } catch (error) {
     return next(new ApiError(500, `Lỗi khi đăng nhập: ${error}`));
+  }
+};
+
+// Gửi email đặt lại mật khẩu
+exports.forgotPassword = async (req, res, next) => {
+  const { email } = req.body;
+
+  if (!email) {
+    return next(new ApiError(400, "Vui lòng nhập email"));
+  }
+
+  try {
+    const docGiaService = new DocGiaService(MongoDB.client);
+    const reader = await docGiaService.findByEmail(email);
+
+    // Không tiết lộ email có tồn tại hay không -> luôn trả về message chung
+    if (reader) {
+      const resetToken = jwt.sign(
+        { id: reader.madocgia, purpose: "reset-password" },
+        config.jwt.secret,
+        { expiresIn: config.jwt.resetExpiresIn }
+      );
+
+      const resetLink = `${config.client.url}/reset-password?token=${resetToken}`;
+      await sendResetPasswordEmail(reader.email, resetLink);
+    }
+
+    return res.send({
+      message: "Nếu email tồn tại trong hệ thống, liên kết đặt lại mật khẩu sẽ được gửi.",
+    });
+  } catch (error) {
+    return next(new ApiError(500, `Lỗi khi xử lý quên mật khẩu: ${error}`));
+  }
+};
+
+// Đặt lại mật khẩu bằng token nhận qua email
+exports.resetPassword = async (req, res, next) => {
+  const { token, newPassword } = req.body;
+
+  if (!token || !newPassword) {
+    return next(new ApiError(400, "Thiếu token hoặc mật khẩu mới"));
+  }
+
+  try {
+    let decoded;
+    try {
+      decoded = jwt.verify(token, config.jwt.secret);
+    } catch (err) {
+      return next(new ApiError(400, "Liên kết đặt lại mật khẩu không hợp lệ hoặc đã hết hạn"));
+    }
+
+    if (decoded.purpose !== "reset-password") {
+      return next(new ApiError(400, "Token không hợp lệ"));
+    }
+
+    const docGiaService = new DocGiaService(MongoDB.client);
+    const reader = await docGiaService.findByIdUser(decoded.id);
+
+    if (!reader) {
+      return next(new ApiError(404, "Không tìm thấy tài khoản"));
+    }
+
+    const hashedPass = await bcrypt.hash(newPassword, 10);
+    await docGiaService.update(decoded.id, { pass: newPassword });
+
+    return res.send({ message: "Đặt lại mật khẩu thành công. Vui lòng đăng nhập lại." });
+  } catch (error) {
+    return next(new ApiError(500, `Lỗi khi đặt lại mật khẩu: ${error}`));
   }
 };

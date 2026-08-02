@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 
 const authRouter = require("./app/routes/auth.route");
+const docgia = require("./app/controllers/docgia.controller");
 const docgiaRouter = require("./app/routes/docgia.route");
 const nhanvienRouter = require("./app/routes/nhanvien.route");
 const sachRouter = require("./app/routes/sach.route");
@@ -18,7 +19,7 @@ app.use(express.json());
 
 // Route công khai: đăng nhập, đăng ký độc giả
 app.use("/auth", authRouter);
-app.post("/readers", docgiaRouter);
+app.post("/readers", docgia.create);
 
 // Độc giả tự quản lý thông tin cá nhân -> cần đăng nhập nhưng không cần quyền staff
 app.use("/readers", verifyToken, docgiaRouter);

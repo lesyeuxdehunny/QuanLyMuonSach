@@ -76,6 +76,11 @@ class DocGiaService {
     return await this.Reader.findOne({ madocgia: id });
   }
 
+  //Tìm theo email (phục vụ chức năng quên mật khẩu)
+  async findByEmail(email) {
+    return await this.Reader.findOne({ email });
+  }
+
   //Cập nhật
   async update(id, payload) {
     const filter = {

@@ -23,4 +23,9 @@ export default [
     name: "info",
     component: info,
   },
+  {
+    path: "/reset-password",
+    name: "reset-password",
+    component: () => import("@/views/Login.vue"),
+  },
 ];

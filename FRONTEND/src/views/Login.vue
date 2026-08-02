@@ -1,23 +1,41 @@
 <template>
   <div class="login-container">
     <div class="login-box">
-      <div class="tabs">
+      <div class="tabs" v-if="authView === 'login' || authView === 'register'">
         <!-- mặc định là login -->
-        <span :class="{ active: isLogin }" @click="isLogin = true">Đăng nhập</span>
-        <span :class="{ active: !isLogin }" @click="isLogin = false">Đăng ký</span>
+        <span :class="{ active: authView === 'login' }" @click="switchToLogin">Đăng nhập</span>
+        <span :class="{ active: authView === 'register' }" @click="switchToRegister">Đăng ký</span>
       </div>
 
       <!-- Form Đăng Nhập -->
-      <form v-if="isLogin" @submit.prevent="login">
+      <form v-if="authView === 'login'" @submit.prevent="login">
         <label for="tendangnhap"><strong>Tên đăng nhập</strong></label>
         <input v-model="loginData.tendangnhap" placeholder="Nhập tên đăng nhập" required />
         <label for="matkhau"><strong>Mật khẩu</strong></label>
         <input v-model="loginData.password" type="password" placeholder="Nhập mật khẩu" required />
         <button type="submit">Đăng nhập</button>
+        <p class="forgot-link" @click="authView = 'forgot'">Quên mật khẩu?</p>
+      </form>
+
+      <!-- Form quên mật khẩu -->
+      <form v-else-if="authView === 'forgot'" @submit.prevent="submitForgotPassword">
+        <label>Nhập email đã đăng ký</label>
+        <input v-model="forgotEmail" type="email" placeholder="Nhập email" required />
+        <button type="submit">Gửi yêu cầu</button>
+        <p class="forgot-link" @click="authView = 'login'">Quay lại đăng nhập</p>
+      </form>
+
+      <!-- Form đặt lại mật khẩu -->
+      <form v-else-if="authView === 'reset'" @submit.prevent="submitResetPassword">
+        <label>Mật khẩu mới</label>
+        <input v-model="newPassword" type="password" placeholder="Nhập mật khẩu mới" required />
+        <label>Nhập lại mật khẩu mới</label>
+        <input v-model="confirmNewPassword" type="password" placeholder="Nhập lại mật khẩu mới" required />
+        <button type="submit">Đặt lại mật khẩu</button>
       </form>
 
       <!-- Form Đăng Ký -->
-      <form v-else @submit.prevent="register">
+      <form v-else-if="authView === 'register'" @submit.prevent="register">
         <input v-model="registerData.madocgia" @blur="checkMadocgia" placeholder="Nhập tên đăng nhập" required />
         <p v-if="madocgiaError" style="color: #fff; font-size: 16px;">{{ madocgiaError }}</p>
         <input v-model="registerData.holot" placeholder="Nhập họ lót" required />
@@ -47,7 +65,7 @@ import authService from "@/services/auth.service";
 export default {
   data() {
     return {
-      isLogin: true, //Mặc định là tab login
+      authView: "login", // 'login' | 'register' | 'forgot' | 'reset'
       loginData: {
         tendangnhap: "",
         password: ""
@@ -64,10 +82,22 @@ export default {
         madocgia: "",
       },
       confirmPassword: "",
-      madocgiaError: ""
+      madocgiaError: "",
+      forgotEmail: "",
+      newPassword: "",
+      confirmNewPassword: "",
+      resetToken: "",
     };
   },
   methods: {
+    switchToLogin() {
+      this.authView = "login";
+    },
+
+    switchToRegister() {
+      this.authView = "register";
+    },
+
     async checkMadocgia() {
       if (!this.registerData.madocgia) {
         this.madocgiaError = ""
@@ -90,57 +120,90 @@ export default {
     },
 
     async login() {
-    try {
-      const response = await authService.login(
-        this.loginData.tendangnhap,
-        this.loginData.password
-      );
-      const { token, user } = response.data;
+      try {
+        const response = await authService.login(
+          this.loginData.tendangnhap,
+          this.loginData.password
+        );
+        const { token, user } = response.data;
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
 
-      if (user.role === "staff") {
-        this.$router.push("/admin/");
-      } else {
-        this.$router.push("/");
+        if (user.role === "staff") {
+          this.$router.push("/admin/");
+        } else {
+          this.$router.push("/");
+        }
+      } catch (error) {
+        const msg = error.response?.data?.message || "Đăng nhập thất bại";
+        alert(msg);
       }
-    } catch (error) {
-      const msg = error.response?.data?.message || "Đăng nhập thất bại";
-      alert(msg);
+    },
+
+    async submitForgotPassword() {
+      try {
+        const response = await authService.forgotPassword(this.forgotEmail);
+        alert(response.data.message);
+        this.authView = "login";
+      } catch (error) {
+        alert(error.response?.data?.message || "Có lỗi xảy ra");
+      }
+    },
+
+    async submitResetPassword() {
+      if (this.newPassword !== this.confirmNewPassword) {
+        alert("Mật khẩu không trùng khớp!");
+        return;
+      }
+      try {
+        const response = await authService.resetPassword(this.resetToken, this.newPassword);
+        alert(response.data.message);
+        this.authView = "login";
+        this.$router.push("/login");
+      } catch (error) {
+        alert(error.response?.data?.message || "Có lỗi xảy ra");
+      }
+    },
+
+    async register() {
+      try {
+        await this.checkMadocgia();
+        if (this.madocgiaError) return;
+
+        if (this.registerData.pass !== this.confirmPassword) {
+          alert("Mật khẩu không trùng khớp!");
+          return;
+        }
+
+        await readerService.createReader(this.registerData);
+
+        alert("Đăng ký thành công! Hãy đăng nhập.");
+        this.authView = "login";
+      } catch (error) {
+        console.error("Lỗi khi tạo tài khoản:", error);
+
+        if (error.response) {
+          console.error("Server responded:", error.response.status, error.response.data);
+          alert(`${error.response.data?.message || JSON.stringify(error.response.data)}`);
+        } else if (error.request) {
+          console.error("No response received:", error.request);
+          alert("Không nhận được phản hồi từ server.");
+        } else {
+          alert(`Lỗi: ${error.message}`);
+        }
+      }
     }
+
   },
 
-async register() {
-  try {
-    await this.checkMadocgia();
-    if (this.madocgiaError) return;
-
-    if (this.registerData.pass !== this.confirmPassword) {
-      alert("Mật khẩu không trùng khớp!");
-      return;
+  mounted() {
+    const token = this.$route.query.token;
+    if (token) {
+      this.resetToken = token;
+      this.authView = "reset";
     }
-
-    await readerService.createReader(this.registerData);
-
-    alert("Đăng ký thành công! Hãy đăng nhập.");
-    this.isLogin = true;
-  } catch (error) {
-    console.error("Lỗi khi tạo tài khoản:", error);
-
-    if (error.response) {
-      console.error("Server responded:", error.response.status, error.response.data);
-      alert(`${error.response.data?.message || JSON.stringify(error.response.data)}`);
-    } else if (error.request) {
-      console.error("No response received:", error.request);
-      alert("Không nhận được phản hồi từ server.");
-    } else {
-      alert(`Lỗi: ${error.message}`);
-    }
-  }
-}
-
-  }
+  },
 };
 </script>
 
@@ -209,5 +272,10 @@ button {
 
 button:hover {
   background-color: #218838;
+}
+
+.forgot-link {
+  cursor: pointer;
+  margin-top: 10px;
 }
 </style>
