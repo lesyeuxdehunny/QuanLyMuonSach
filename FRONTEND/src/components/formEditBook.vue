@@ -9,10 +9,10 @@
       <input id="tensach" v-model="editedBook.tensach" />
 
       <label for="dongia">Đơn giá</label>
-      <input id="dongia" v-model="book.dongia" @input="book.dongia = book.dongia.replace(/[^0-9]/g, '')"/>
+      <input id="dongia" v-model="editedBook.dongia" @input="editedBook.dongia = String(editedBook.dongia).replace(/[^0-9]/g, '')"/>
 
       <label for="soquyen">Số quyển</label>
-      <input id="soquyen" v-model.number="book.soquyen" />
+      <input id="soquyen" v-model.number="editedBook.soquyen" />
 
       <label for="namxuatban">Năm xuất bản</label>
       <input id="namxuatban" v-model="editedBook.namxuatban" type="date" />
