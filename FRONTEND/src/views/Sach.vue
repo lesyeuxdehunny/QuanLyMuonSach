@@ -4,8 +4,35 @@
     <div class="main-content">
       <Header @search="searchBooks" />
       <div class="content">
-        <div class="top-bar">
+        <div class="top-bar d-flex">
           <h2>Kho Sách</h2>
+          <div style="position: relative;">
+            <button class="ml-4 d-flex filter-btn" @click="filterMenu = !filterMenu">
+              <h5>Sắp xếp theo</h5>
+              <i class="fas fa-sort ml-2 mt-2"></i>
+            </button>
+            <div v-if="filterMenu" class="filter-menu">
+              <ul>
+                <li @click="sortBooks('name')" :class="{ active: atoz !== 'default' }">
+                  <span v-if="atoz === 'asc'">Từ A đến Z</span>
+                  <span v-else-if="atoz === 'desc'">Từ Z đến A</span>
+                  <span v-else>Từ A đến Z</span>
+                </li>
+                <li @click="sortBooks('price')" :class="{ active: priceOrder !== 'default' }">
+                  Giá
+                  <span v-if="priceOrder === 'asc'">tăng dần</span>
+                  <span v-else-if="priceOrder === 'desc'">giảm dần</span>
+                  <span v-else>tăng dần</span>
+                </li>
+                <li @click="sortBooks('year')" :class="{ active: yearOrder !== 'default' }">
+                  Năm xuất bản
+                  <span v-if="yearOrder === 'desc'">mới nhất</span>
+                  <span v-else-if="yearOrder === 'asc'">cũ nhất</span>
+                  <span v-else>mới nhất</span>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
         <!-- Thêm sách -->
         <button @click="showForm = true" class="add">Thêm Sách</button>
@@ -52,9 +79,14 @@ export default {
   data() {
     return {
       books: [],
+      cloneBooks: [],
       showForm: false,
       showEditForm: false,
       selectedBook: null,
+      filterMenu: false,
+      atoz: "default",
+      priceOrder: "default",
+      yearOrder: "default",
     };
   },
   methods: {
@@ -62,8 +94,7 @@ export default {
       try {
         const response = await bookService.getAllBook();
         this.books = response.data;
-        const iscount = this.books.length;
-        console.log(iscount);
+        this.cloneBooks = [...this.books];   // clone để có thể quay lại "default"
       } catch (error) {
         console.error("Lỗi khi lấy danh sách sách:", error);
       }
@@ -101,8 +132,9 @@ export default {
       try {
         const response = await bookService.getBookByName(query);
         this.books = response.data;
+        this.cloneBooks = [...this.books]; // đồng bộ lại clone sau khi search
       } catch (error) {
-        console.log(` lỗi khi tìm kiếm ${error}`)
+        console.log(`lỗi khi tìm kiếm ${error}`);
       }
     },
 
@@ -110,6 +142,7 @@ export default {
       this.selectedBook = { ...book };
       this.showEditForm = true;
     },
+
     async editBook(updatedBook) {
       try {
         await bookService.updateBook(updatedBook.masach, updatedBook);
@@ -120,7 +153,63 @@ export default {
       } catch (error) {
         console.error("Lỗi khi cập nhật sách:", error);
       }
-    }
+    },
+
+    checkDefaultOther(activeCategory) {
+      const sortMap = {
+        name: ["priceOrder", "yearOrder"],
+        price: ["atoz", "yearOrder"],
+        year: ["atoz", "priceOrder"],
+      };
+      if (sortMap[activeCategory]) {
+        sortMap[activeCategory].forEach((key) => {
+          this[key] = "default";
+        });
+      }
+    },
+
+    sortBooks(category) {
+      this.checkDefaultOther(category);
+
+      if (category === "name") {
+        if (this.atoz === "default") {
+          this.atoz = "asc";
+          this.books.sort((a, b) => a.tensach.localeCompare(b.tensach));
+        } else if (this.atoz === "asc") {
+          this.atoz = "desc";
+          this.books.sort((a, b) => b.tensach.localeCompare(a.tensach));
+        } else {
+          this.atoz = "default";
+          this.books = [...this.cloneBooks];
+        }
+      }
+
+      if (category === "price") {
+        if (this.priceOrder === "default") {
+          this.priceOrder = "asc";
+          this.books.sort((a, b) => a.dongia - b.dongia);
+        } else if (this.priceOrder === "asc") {
+          this.priceOrder = "desc";
+          this.books.sort((a, b) => b.dongia - a.dongia);
+        } else {
+          this.priceOrder = "default";
+          this.books = [...this.cloneBooks];
+        }
+      }
+
+      if (category === "year") {
+        if (this.yearOrder === "default") {
+          this.yearOrder = "desc";
+          this.books.sort((a, b) => b.namxuatban.localeCompare(a.namxuatban));
+        } else if (this.yearOrder === "desc") {
+          this.yearOrder = "asc";
+          this.books.sort((a, b) => a.namxuatban.localeCompare(b.namxuatban));
+        } else {
+          this.yearOrder = "default";
+          this.books = [...this.cloneBooks];
+        }
+      }
+    },
   },
   mounted() {
     this.fetchBooks();
@@ -260,5 +349,27 @@ p {
   padding: 5px 10px;
   cursor: pointer;
   border-radius: 5px;
+}
+
+.filter-btn {
+  background-color: #3961d9;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: 0.3s;
+}
+.filter-btn:hover {
+  background-color: #2b4593;
+}
+.filter-menu ul li:hover {
+  color: #007bff;
+}
+.active {
+  color: #007bff;
+  text-decoration: underline;
+  font-weight: bold;
 }
 </style>
