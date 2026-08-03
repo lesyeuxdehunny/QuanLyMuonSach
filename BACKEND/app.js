@@ -27,7 +27,7 @@ app.use("/readers", verifyToken, docgiaRouter);
 // Các route quản trị -> bắt buộc là staff
 app.use("/staffs", verifyToken, requireStaff, nhanvienRouter);
 app.use("/books", verifyToken, sachRouter); // đọc sách cho phép mọi user đã đăng nhập, ghi thì chặn thêm bên dưới nếu cần
-app.use("/publishers", verifyToken, requireStaff, nxbRouter);
+app.use("/publishers", verifyToken, nxbRouter);
 app.use("/bookManagement", verifyToken, theodoimuonsachRouter);
 
 app.get("/", (req, res) => {
