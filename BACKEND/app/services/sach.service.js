@@ -20,8 +20,8 @@ class sachService {
     const book = {
       masach: payload.masach,
       tensach: payload.tensach,
-      dongia: Number(payload.dongia),
-      soquyen: Number(payload.soquyen),
+      dongia: payload.dongia !== undefined ? Number(payload.dongia) : undefined,
+      soquyen: payload.soquyen !== undefined ? Number(payload.soquyen) : undefined,
       namxuatban: payload.namxuatban,
       maNXB: payload.maNXB,
       nguongoc_tacgia: payload.nguongoc_tacgia,
